@@ -1,0 +1,133 @@
+/* 关于我们 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+  padding-bottom: 60rpx;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 140rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.card {
+  margin: -100rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.12);
+}
+
+.logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.logo__mark {
+  width: 140rpx;
+  height: 140rpx;
+  line-height: 140rpx;
+  text-align: center;
+  border-radius: 32rpx;
+  background: linear-gradient(135deg, #3aa8f5, #4a90d9);
+  color: #ffffff;
+  font-size: 32rpx;
+  font-weight: 600;
+}
+
+.logo__version {
+  margin-top: 16rpx;
+  font-size: 24rpx;
+  color: #999999;
+}
+
+.intro {
+  margin-top: 30rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.intro__title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.intro__desc {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: #666666;
+  line-height: 1.7;
+  text-align: center;
+}
+
+.group {
+  margin: 24rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.cell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 100rpx;
+  padding: 0 32rpx;
+  border-bottom: 2rpx solid #f2f3f7;
+}
+
+.cell:last-child {
+  border-bottom: none;
+}
+
+.cell__label {
+  font-size: 30rpx;
+  color: #1a1a1a;
+}
+
+.cell__value {
+  font-size: 28rpx;
+  color: #999999;
+}
+
+.cell__arrow {
+  font-size: 40rpx;
+  color: #cccccc;
+}
+
+.footer {
+  margin-top: 80rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.footer__text {
+  font-size: 24rpx;
+  color: #b0b6bf;
+}
