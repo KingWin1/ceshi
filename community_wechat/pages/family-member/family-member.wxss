@@ -1,0 +1,109 @@
+/* 家庭成员页 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+  padding-bottom: 160rpx;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 60rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.list {
+  margin: -40rpx 30rpx 0;
+}
+
+.member {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.member__avatar {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: 24rpx;
+  flex-shrink: 0;
+}
+
+.member__body {
+  flex: 1;
+  margin-left: 24rpx;
+  display: flex;
+  flex-direction: column;
+}
+
+.member__top {
+  display: flex;
+  align-items: center;
+}
+
+.member__name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.member__role {
+  margin-left: 16rpx;
+  font-size: 22rpx;
+  color: #4a90d9;
+  background: #ecf5ff;
+  padding: 4rpx 16rpx;
+  border-radius: 20rpx;
+}
+
+.member__phone {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.member__del {
+  flex-shrink: 0;
+  font-size: 26rpx;
+  color: #e86a5a;
+  padding: 10rpx 20rpx;
+}
+
+.fab {
+  position: fixed;
+  right: 40rpx;
+  bottom: 80rpx;
+  width: 110rpx;
+  height: 110rpx;
+  line-height: 106rpx;
+  text-align: center;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #3aa8f5, #4a90d9);
+  color: #ffffff;
+  font-size: 60rpx;
+  box-shadow: 0 10rpx 30rpx rgba(74, 144, 217, 0.4);
+}
