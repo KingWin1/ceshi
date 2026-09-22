@@ -1,0 +1,164 @@
+/* 访客邀请页 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+  padding-bottom: 60rpx;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 60rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.navbar__extra {
+  position: absolute;
+  right: 30rpx;
+  top: 26rpx;
+  font-size: 26rpx;
+  color: #ffffff;
+}
+
+/* 表单卡片 */
+.form {
+  margin: -40rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 20rpx 32rpx 48rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  min-height: 100rpx;
+  border-bottom: 2rpx solid #f2f3f7;
+}
+
+.field--col {
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 24rpx 0;
+}
+
+.field__label {
+  width: 160rpx;
+  flex-shrink: 0;
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.field__input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.field__ph {
+  color: #bbbbbb;
+}
+
+/* 有效期选择 */
+.days {
+  display: flex;
+  margin-top: 20rpx;
+}
+
+.days__item {
+  padding: 12rpx 40rpx;
+  margin-right: 20rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: #666666;
+  background: #f2f3f7;
+}
+
+.days__item--active {
+  color: #ffffff;
+  background: linear-gradient(90deg, #3aa8f5, #4a90d9);
+}
+
+.submit {
+  width: 100%;
+  margin-top: 60rpx;
+}
+
+/* 邀请结果 */
+.result {
+  margin: -40rpx 30rpx 0;
+}
+
+.result__card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 48rpx 32rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.result__tip {
+  font-size: 26rpx;
+  color: #999999;
+}
+
+.qrcode {
+  width: 360rpx;
+  height: 360rpx;
+  margin: 30rpx 0;
+  border: 2rpx solid #ebeef5;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fafbfc;
+}
+
+.qrcode__code {
+  font-size: 60rpx;
+  font-weight: 700;
+  letter-spacing: 8rpx;
+  color: #1a1a1a;
+}
+
+.result__row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  font-size: 28rpx;
+  margin-top: 20rpx;
+}
+
+.result__label {
+  color: #999999;
+}
+
+.result__value {
+  color: #1a1a1a;
+}
+
+.result__btn {
+  width: 100%;
+  margin-top: 48rpx;
+}
