@@ -1,0 +1,47 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">物业缴费</text>
+      <text class="navbar__extra" bindtap="onGoRecord">缴费记录</text>
+    </view>
+    <!-- 汇总 -->
+    <view class="summary">
+      <text class="summary__label">待缴金额（元）</text>
+      <text class="summary__amount">{{unpaidTotal}}</text>
+    </view>
+    <!-- 状态筛选 -->
+    <view class="tabs">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="value"
+        class="tabs__item {{activeTab === item.value ? 'tabs__item--active' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="onTabTap"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="list">
+    <view class="bill-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onGoDetail">
+      <view class="bill-card__head">
+        <text class="bill-card__month">{{item.month}}</text>
+        <text class="bill-card__status {{item.status === 1 ? 'bill-card__status--paid' : ''}}">{{item.statusName}}</text>
+      </view>
+      <view class="bill-card__row">
+        <text class="bill-card__label">{{item.itemName}}</text>
+        <text class="bill-card__amount">¥{{item.amount}}</text>
+      </view>
+      <view class="bill-card__foot">
+        <text class="bill-card__deadline">缴费截止：{{item.deadline}}</text>
+        <view class="bill-card__btn" wx:if="{{item.status === 0}}" catchtap="onPayTap" data-id="{{item.id}}">立即缴费</view>
+      </view>
+    </view>
+
+    <empty wx:if="{{!loading && list.length === 0}}" text="暂无账单" />
+
+    <view class="load-more" wx:if="{{list.length > 0}}">
+      <text>{{loading ? '加载中...' : (noMore ? '没有更多了' : '上拉加载更多')}}</text>
+    </view>
+  </view>
+</view>
