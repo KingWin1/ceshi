@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">公告详情</text>
+    </view>
+  </view>
+
+  <view class="content" wx:if="{{detail}}">
+    <view class="article">
+      <text class="article__title">{{detail.title}}</text>
+      <view class="article__meta">
+        <text class="article__source">{{detail.source || '物业管理处'}}</text>
+        <text class="article__time">{{detail.publishTime}}</text>
+      </view>
+      <view class="article__body">
+        <text class="article__paragraph" wx:for="{{paragraphs}}" wx:key="index">{{item}}</text>
+      </view>
+      <image
+        class="article__image"
+        wx:for="{{detail.images}}"
+        wx:key="*this"
+        src="{{item}}"
+        mode="widthFix"
+        data-url="{{item}}"
+        bindtap="onPreviewImage"
+      />
+    </view>
+  </view>
+
+  <view class="loading-tip" wx:if="{{!detail}}">加载中...</view>
+</view>
