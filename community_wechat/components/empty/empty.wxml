@@ -1,0 +1,6 @@
+<!-- components/empty/empty.wxml —— 通用空状态 -->
+<view class="empty">
+  <view class="empty__icon">📭</view>
+  <text class="empty__text">{{text}}</text>
+  <view class="empty__btn" wx:if="{{btnText}}" bindtap="onBtnTap">{{btnText}}</view>
+</view>
