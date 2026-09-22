@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.StatisticsMapper">
+
+    <!-- 账单统计 -->
+    <select id="selectBillStatistics" resultType="java.util.Map">
+        SELECT
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(create_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+                            THEN payable_amount END), 0)                                AS monthReceivable,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(create_time, '%Y-%m') = DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 1 MONTH), '%Y-%m')
+                            THEN payable_amount END), 0)                                AS lastMonthReceivable,
+            IFNULL(SUM(CASE WHEN status = 1 AND DATE_FORMAT(pay_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+                            THEN paid_amount END), 0)                                   AS monthReceived,
+            IFNULL(SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END), 0)                      AS unpaidCount,
+            IFNULL(SUM(CASE WHEN status = 2 AND end_date IS NOT NULL AND end_date &lt; CURDATE()
+                            THEN 1 ELSE 0 END), 0)                                      AS overdueCount,
+            IFNULL(SUM(CASE WHEN status = 2 AND DATE_FORMAT(create_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+                            THEN 1 ELSE 0 END), 0)                                      AS unpaidMonthCount,
+            IFNULL(SUM(CASE WHEN status = 2 AND DATE_FORMAT(create_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+                            THEN payable_amount - IFNULL(paid_amount, 0) END), 0)       AS unpaidAmount
+        FROM bill
+    </select>
+
+    <!-- 报修统计 -->
+    <select id="selectRepairStatistics" resultType="java.util.Map">
+        SELECT
+            IFNULL(SUM(CASE WHEN status IN (1, 2, 3) THEN 1 ELSE 0 END), 0) AS pendingCount,
+            IFNULL(SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END), 0)          AS dispatchCount,
+            IFNULL(SUM(CASE WHEN status = 3 THEN 1 ELSE 0 END), 0)          AS handlingCount
+        FROM repair_record
+    </select>
+
+    <!-- 投诉统计 -->
+    <select id="selectComplaintStatistics" resultType="java.util.Map">
+        SELECT
+            IFNULL(SUM(CASE WHEN status IN (1, 2) THEN 1 ELSE 0 END), 0) AS pendingCount,
+            IFNULL(SUM(CASE WHEN status = 1 THEN 1 ELSE 0 END), 0)       AS replyCount,
+            IFNULL(SUM(CASE WHEN status = 2 THEN 1 ELSE 0 END), 0)       AS handlingCount
+        FROM complaint_record
+    </select>
+
+    <!-- 楼栋/房屋统计 -->
+    <select id="selectHouseStatistics" resultType="java.util.Map">
+        SELECT
+            (SELECT COUNT(*) FROM building)                                     AS buildingCount,
+            (SELECT COUNT(*) FROM house)                                        AS houseCount,
+            (SELECT COUNT(*) FROM house WHERE status IN (2, 3))                 AS occupiedCount,
+            (SELECT COUNT(*) FROM house WHERE status = 1)                       AS vacantCount
+    </select>
+
+    <!-- 居民统计 -->
+    <select id="selectResidentStatistics" resultType="java.util.Map">
+        SELECT
+            COUNT(*)                                                              AS residentCount,
+            IFNULL(SUM(CASE WHEN DATE_FORMAT(create_time, '%Y-%m') = DATE_FORMAT(CURDATE(), '%Y-%m')
+                            THEN 1 ELSE 0 END), 0)                                AS residentMonthCount
+        FROM resident
+    </select>
+
+    <!-- 近6个月各月应收总额（SELECT与GROUP BY表达式保持一致，兼容ONLY_FULL_GROUP_BY） -->
+    <select id="selectMonthReceivable" resultType="java.util.Map">
+        SELECT DATE_FORMAT(create_time, '%Y-%m') AS month,
+               IFNULL(SUM(payable_amount), 0)    AS amount
+        FROM bill
+        WHERE create_time >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), '%Y-%m-01')
+        GROUP BY DATE_FORMAT(create_time, '%Y-%m')
+    </select>
+
+    <!-- 近6个月各月实收金额 -->
+    <select id="selectMonthReceived" resultType="java.util.Map">
+        SELECT DATE_FORMAT(pay_time, '%Y-%m') AS month,
+               IFNULL(SUM(paid_amount), 0)    AS amount
+        FROM bill
+        WHERE status = 1
+          AND pay_time >= DATE_FORMAT(DATE_SUB(CURDATE(), INTERVAL 5 MONTH), '%Y-%m-01')
+        GROUP BY DATE_FORMAT(pay_time, '%Y-%m')
+    </select>
+
+    <!-- 报修单按状态数量 -->
+    <select id="selectRepairStatusCounts" resultType="java.util.Map">
+        SELECT status, COUNT(*) AS count
+        FROM repair_record
+        WHERE status IN (1, 2, 3)
+        GROUP BY status
+    </select>
+
+    <!-- 投诉建议按状态数量 -->
+    <select id="selectComplaintStatusCounts" resultType="java.util.Map">
+        SELECT status, COUNT(*) AS count
+        FROM complaint_record
+        WHERE status IN (1, 2)
+        GROUP BY status
+    </select>
+
+    <!-- 账单列表联查公共片段（账单-费用类型-房屋-楼栋） -->
+    <sql id="homeBillJoinSql">
+        SELECT
+            b.bill_id,
+            b.bill_no,
+            b.payable_amount,
+            b.paid_amount,
+            b.status,
+            b.pay_time,
+            b.create_time,
+            ft.fee_type_name,
+            bd.building_name
+        FROM bill b
+        LEFT JOIN fee_type ft ON b.fee_type_id = ft.fee_type_id
+        LEFT JOIN house h ON b.house_id = h.house_id
+        LEFT JOIN building bd ON h.building_id = bd.building_id
+    </sql>
+
+    <!-- 待缴账单列表 -->
+    <select id="selectUnpaidBills" resultType="com.community.backend.vo.HomeBillVO">
+        <include refid="homeBillJoinSql"/>
+        WHERE b.status = 2
+        ORDER BY b.create_time DESC
+        LIMIT #{limit}
+    </select>
+
+    <!-- 最近缴费列表 -->
+    <select id="selectRecentPaidBills" resultType="com.community.backend.vo.HomeBillVO">
+        <include refid="homeBillJoinSql"/>
+        WHERE b.status = 1
+        ORDER BY b.pay_time DESC
+        LIMIT #{limit}
+    </select>
+
+</mapper>

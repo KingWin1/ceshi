@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.HouseTypeMapper">
+
+    <!-- 根据室、厅、卫的个数查询匹配的户型 -->
+    <select id="selectByLayout" resultType="com.community.common.pojo.HouseType">
+        SELECT * FROM house_type
+        WHERE rooms = #{rooms} AND hall = #{hall} AND toilet = #{toilet}
+        LIMIT 1
+    </select>
+
+</mapper>

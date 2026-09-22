@@ -1,0 +1,91 @@
+/* 生成账单弹窗样式 */
+.gen-form {
+  ::v-deep .el-radio-group {
+    .el-radio {
+      margin-right: 16px;
+    }
+  }
+
+  ::v-deep .el-date-editor,
+  ::v-deep .el-select {
+    margin-left: 12px;
+    vertical-align: middle;
+  }
+
+  ::v-deep .el-form-item__error {
+    position: static;
+    padding-top: 2px;
+  }
+}
+
+.w-200 {
+  width: 200px;
+}
+
+.w-240 {
+  width: 240px;
+}
+
+.w-360 {
+  width: 360px;
+}
+
+/* 计费设置分隔标题 */
+.price-divider {
+  position: relative;
+  padding-left: 12px;
+  margin: 4px 0 18px;
+  font-size: 14px;
+  color: #303133;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    width: 4px;
+    height: 14px;
+    background: #2774f7;
+    border-radius: 2px;
+    transform: translateY(-50%);
+  }
+}
+
+/* 数字输入框去掉默认宽度限制 */
+::v-deep .el-input-number {
+  .el-input__inner {
+    text-align: center;
+  }
+}
+
+.price-unit {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #606266;
+}
+
+/* 预览表格 */
+.preview-wrap {
+  margin-top: 8px;
+}
+
+.preview-title {
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #303133;
+}
+
+.amount {
+  font-weight: 600;
+  color: #f56c6c;
+}
+
+/* 确认生成（未预览时浅绿禁用） */
+.btn-confirm {
+  opacity: 0.55;
+
+  &.is-disabled {
+    opacity: 0.55;
+  }
+}

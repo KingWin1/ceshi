@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.common.mapper.ResidentMapper">
+
+    <!-- 分页+条件查询居民列表（居民表-房屋居民认证表-房屋表-楼栋表 四表联查） -->
+    <select id="selectResidentPage" resultType="com.community.common.vo.ResidentVO">
+        SELECT
+            r.resident_id,
+            r.name,
+            r.phone,
+            r.id_card,
+            r.gender,
+            r.avatar_url,
+            GROUP_CONCAT(DISTINCT CONCAT(b.building_name, '-', h.unit_no, '单元-', h.house_number) SEPARATOR ', ') AS house_name,
+            COUNT(DISTINCT hra.house_id) AS house_count,
+            r.type,
+            r.register_way,
+            r.status,
+            r.create_time
+        FROM resident r
+        LEFT JOIN house_resident_auth hra ON r.resident_id = hra.resident_id
+        LEFT JOIN house h ON hra.house_id = h.house_id
+        LEFT JOIN building b ON h.building_id = b.building_id
+        <where>
+            <if test="query.type != null">
+                AND r.type = #{query.type}
+            </if>
+            <if test="query.name != null and query.name != ''">
+                AND r.name LIKE CONCAT('%', #{query.name}, '%')
+            </if>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (r.name LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR r.phone LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR r.id_card LIKE CONCAT('%', #{query.keyword}, '%'))
+            </if>
+            <if test="query.gender != null">
+                AND r.gender = #{query.gender}
+            </if>
+            <if test="query.registerWay != null">
+                AND r.register_way = #{query.registerWay}
+            </if>
+            <if test="query.status != null">
+                AND r.status = #{query.status}
+            </if>
+            <if test="query.buildingId != null">
+                AND h.building_id = #{query.buildingId}
+            </if>
+            <if test="query.unitNo != null and query.unitNo != ''">
+                AND h.unit_no = #{query.unitNo}
+            </if>
+            <if test="query.houseNumber != null and query.houseNumber != ''">
+                AND h.house_number = #{query.houseNumber}
+            </if>
+        </where>
+        GROUP BY r.resident_id
+        ORDER BY r.resident_id ASC
+    </select>
+
+    <!-- 根据居民ID查询居民信息 -->
+    <select id="selectResidentById" resultType="com.community.common.pojo.Resident">
+        SELECT * FROM resident WHERE resident_id = #{residentId}
+    </select>
+
+    <!-- 根据居民ID修改居民信息 -->
+    <update id="updateResidentById">
+        UPDATE resident
+        <set>
+            <if test="name != null">name = #{name},</if>
+            <if test="phone != null">phone = #{phone},</if>
+            <if test="password != null and password != ''">password = #{password},</if>
+            <if test="idCard != null">id_card = #{idCard},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="type != null">type = #{type},</if>
+            <if test="registerWay != null">register_way = #{registerWay},</if>
+            <if test="avatarUrl != null">avatar_url = #{avatarUrl},</if>
+            <if test="status != null">status = #{status},</if>
+        </set>
+        WHERE resident_id = #{residentId}
+    </update>
+
+    <!-- 根据姓名或电话模糊查询居民信息（两条件为“或”关系） -->
+    <select id="selectByNameOrPhone" resultType="com.community.common.pojo.Resident">
+        SELECT * FROM resident
+        <where>
+            <if test="(name != null and name != '') or (phone != null and phone != '')">
+                AND (
+                <trim prefixOverrides="OR">
+                    <if test="name != null and name != ''">
+                        OR name LIKE CONCAT('%', #{name}, '%')
+                    </if>
+                    <if test="phone != null and phone != ''">
+                        OR phone LIKE CONCAT('%', #{phone}, '%')
+                    </if>
+                </trim>
+                )
+            </if>
+        </where>
+    </select>
+
+</mapper>

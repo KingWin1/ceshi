@@ -1,0 +1,76 @@
+/* 广告列表页样式 */
+@primary: #2774f7;
+
+.ad-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 查询卡片 */
+.search-card {
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.search-label {
+  margin-right: 10px;
+  margin-left: 8px;
+  font-size: 14px;
+  color: #303133;
+  white-space: nowrap;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.w-130 {
+  width: 130px;
+}
+
+/* 列表卡片 */
+.table-card {
+  padding: 20px 24px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+/* 广告图片缩略图 */
+.ad-image {
+  width: 60px;
+  height: 40px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.op-enable {
+  color: @primary;
+}
+
+.op-disable {
+  color: #e6a23c;
+}
+
+.op-delete {
+  color: #f56c6c;
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

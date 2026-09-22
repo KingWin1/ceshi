@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.MessageMapper">
+
+    <!-- 根据账单ID统计催缴次数 -->
+    <select id="countByBillId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM message WHERE bill_id = #{billId}
+    </select>
+
+    <!-- 根据账单ID查询最后催缴时间 -->
+    <select id="selectLastRemindTime" resultType="java.util.Date">
+        SELECT MAX(create_time) FROM message WHERE bill_id = #{billId}
+    </select>
+
+</mapper>

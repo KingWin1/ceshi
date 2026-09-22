@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.EmployeeMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.community.common.pojo.Employee">
+        <id column="employee_id" property="employeeId" />
+        <result column="employee_name" property="employeeName" />
+        <result column="phone" property="phone" />
+        <result column="gender" property="gender" />
+        <result column="dept_id" property="deptId" />
+        <result column="position_id" property="positionId" />
+        <result column="status" property="status" />
+        <result column="remark" property="remark" />
+        <result column="create_time" property="createTime" />
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        employee_id, employee_name, phone, gender, dept_id, position_id, status, remark, create_time
+    </sql>
+
+    <!-- 根据岗位ID统计该岗位在员工表中出现的次数 -->
+    <select id="countByPositionId" resultType="int">
+        SELECT COUNT(*) FROM employee WHERE position_id = #{positionId}
+    </select>
+
+    <!-- 根据岗位ID数组统计每个岗位在员工表中出现的次数（无员工记录的岗位统计为0） -->
+    <select id="countByPositionIds" resultType="com.community.backend.vo.PositionEmployeeCountVO">
+        SELECT
+            p.position_id,
+            p.position_name,
+            COUNT(e.employee_id) AS employee_count
+        FROM position p
+        LEFT JOIN employee e ON p.position_id = e.position_id
+        WHERE p.position_id IN
+        <foreach collection="positionIds" item="positionId" open="(" separator="," close=")">
+            #{positionId}
+        </foreach>
+        GROUP BY p.position_id, p.position_name
+    </select>
+
+    <!-- 根据岗位ID删除员工数据 -->
+    <delete id="deleteByPositionId">
+        DELETE FROM employee WHERE position_id = #{positionId}
+    </delete>
+
+    <!-- 根据岗位ID数组批量删除员工数据 -->
+    <delete id="deleteByPositionIds">
+        DELETE FROM employee WHERE position_id IN
+        <foreach collection="positionIds" item="positionId" open="(" separator="," close=")">
+            #{positionId}
+        </foreach>
+    </delete>
+
+    <!-- 根据岗位ID数组批量查询员工数据 -->
+    <select id="selectListByPositionIds" resultType="com.community.common.pojo.Employee">
+        SELECT * FROM employee WHERE position_id IN
+        <foreach collection="positionIds" item="positionId" open="(" separator="," close=")">
+            #{positionId}
+        </foreach>
+    </select>
+
+</mapper>

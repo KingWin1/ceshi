@@ -1,0 +1,53 @@
+/* 首页占位 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 120rpx;
+}
+
+.navbar {
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.card {
+  margin: -60rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.12);
+}
+
+.card__title {
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.card__row {
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #666666;
+}
+
+.enter-btn {
+  margin: 80rpx auto 0;
+}
+
+.enter-btn--plain {
+  background: #ffffff;
+  color: #4a90d9;
+  border: 2rpx solid #4a90d9;
+}

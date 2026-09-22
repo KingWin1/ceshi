@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.BillMapper">
+
+    <!-- 7表联查基础SQL片段 -->
+    <sql id="billJoinSql">
+        SELECT
+            b.bill_id,
+            b.bill_no,
+            bu.building_name,
+            h.unit_no,
+            h.house_number,
+            CONCAT(bu.building_name, '-', h.unit_no, '-', h.house_number) AS full_house_no,
+            r.resident_id,
+            r.name AS resident_name,
+            r.phone,
+            ft.fee_type_name,
+            CASE b.billing_period
+                WHEN 'month' THEN ft.monthly_price
+                WHEN 'quarter' THEN ft.quarterly_price
+                ELSE ft.yearly_price
+            END AS unit_price,
+            h.area,
+            b.bill_amount,
+            b.discount_amount,
+            b.payable_amount,
+            b.paid_amount,
+            b.pay_method,
+            b.pay_time,
+            b.pay_serial_no,
+            b.billing_period,
+            b.billing_period_value,
+            b.start_date,
+            b.end_date,
+            (SELECT COUNT(*) FROM message m WHERE m.bill_id = b.bill_id) AS remind_count,
+            (SELECT MAX(m.create_time) FROM message m WHERE m.bill_id = b.bill_id) AS last_remind_time,
+            b.status,
+            b.create_time
+        FROM bill b
+        LEFT JOIN house h ON b.house_id = h.house_id
+        LEFT JOIN building bu ON h.building_id = bu.building_id
+        LEFT JOIN fee_type ft ON b.fee_type_id = ft.fee_type_id
+        LEFT JOIN house_resident_auth hra ON h.house_id = hra.house_id AND hra.is_main = 1 AND hra.audit_status = 2
+        LEFT JOIN resident r ON hra.resident_id = r.resident_id
+    </sql>
+
+    <!-- 动态条件 -->
+    <sql id="billWhereSql">
+        <where>
+            <if test="query.status != null">
+                AND b.status = #{query.status}
+            </if>
+            <if test="query.buildingId != null">
+                AND h.building_id = #{query.buildingId}
+            </if>
+            <if test="query.unitNo != null and query.unitNo != ''">
+                AND h.unit_no = #{query.unitNo}
+            </if>
+            <if test="query.houseNumber != null and query.houseNumber != ''">
+                AND h.house_number = #{query.houseNumber}
+            </if>
+            <if test="query.feeTypeId != null">
+                AND b.fee_type_id = #{query.feeTypeId}
+            </if>
+            <if test="query.billingPeriod != null and query.billingPeriod != ''">
+                AND b.billing_period = #{query.billingPeriod}
+            </if>
+            <!-- 计费周期筛选统一按计费开始日期匹配：按月-年月，按季度-年+季度，按年-年份 -->
+            <if test="query.billingYear != null">
+                AND YEAR(b.start_date) = #{query.billingYear}
+            </if>
+            <choose>
+                <when test="query.billingPeriod == 'month' and query.billingPeriodValue != null">
+                    AND MONTH(b.start_date) = #{query.billingPeriodValue}
+                </when>
+                <when test="query.billingPeriod == 'quarter' and query.billingPeriodValue != null">
+                    AND QUARTER(b.start_date) = #{query.billingPeriodValue}
+                </when>
+            </choose>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (r.name LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR r.phone LIKE CONCAT('%', #{query.keyword}, '%'))
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页+条件查询账单列表 -->
+    <select id="selectBillPage" resultType="com.community.backend.vo.BillVO">
+        <include refid="billJoinSql"/>
+        <include refid="billWhereSql"/>
+        ORDER BY b.create_time DESC
+    </select>
+
+    <!-- 根据账单ID查询账单详情 -->
+    <select id="selectBillDetail" resultType="com.community.backend.vo.BillVO">
+        <include refid="billJoinSql"/>
+        WHERE b.bill_id = #{billId}
+    </select>
+
+    <!-- 条件查询账单列表（不分页） -->
+    <select id="selectBillList" resultType="com.community.backend.vo.BillVO">
+        <include refid="billJoinSql"/>
+        <include refid="billWhereSql"/>
+        ORDER BY b.create_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,48 @@
+<view class="page">
+  <!-- 顶部蓝色渐变区（含状态栏避让） -->
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">登录</text>
+    </view>
+  </view>
+
+  <!-- 微信一键登录卡片 -->
+  <view class="wx-card">
+    <button class="wx-card__avatar-btn" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+      <image class="wx-card__avatar" src="{{wxAvatar || icons.AVATAR_WX}}" mode="aspectFill" />
+    </button>
+    <input class="wx-card__nick" type="nickname" placeholder="点击填写微信昵称"
+           placeholder-class="wx-card__nick-ph" value="{{wxNickname}}" bindblur="onNickBlur" bindchange="onNickBlur" />
+    <text class="wx-card__tip">点头像可选用微信头像，一键登录自动关联该身份</text>
+    <view class="wx-card__btn {{wxLoading ? 'wx-card__btn--disabled' : ''}}" bindtap="onWxLoginTap">
+      微信一键登录
+    </view>
+  </view>
+
+  <!-- 分隔线 -->
+  <view class="divider">
+    <view class="divider__line"></view>
+    <text class="divider__text">其他登录方式</text>
+    <view class="divider__line"></view>
+  </view>
+
+  <!-- 其他登录方式入口 -->
+  <view class="entry-card">
+    <view class="entry" bindtap="onSmsLoginTap">
+      <view class="entry__icon entry__icon--sms">
+        <image class="entry__icon-img" src="{{icons.ICON_PHONE}}" />
+      </view>
+      <text class="entry__text">手机号验证码登录</text>
+      <text class="entry__arrow">›</text>
+    </view>
+    <view class="entry__line"></view>
+    <view class="entry" bindtap="onPwdLoginTap">
+      <view class="entry__icon entry__icon--pwd">
+        <image class="entry__icon-img" src="{{icons.ICON_LOCK_RED}}" />
+      </view>
+      <text class="entry__text">账号密码登录</text>
+      <text class="entry__arrow">›</text>
+    </view>
+  </view>
+</view>

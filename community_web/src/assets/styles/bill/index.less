@@ -1,0 +1,182 @@
+/* 账单列表页样式 */
+@primary: #2774f7;
+
+.bill-list {
+  display: flex;
+  flex-direction: column;
+}
+
+/* 查询卡片 */
+.search-card {
+  padding: 20px 24px;
+  margin-bottom: 16px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.search-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+
+  & + .search-row {
+    margin-top: 16px;
+  }
+}
+
+/* 状态页签（全部账单/未缴/已缴） */
+.type-tabs {
+  display: flex;
+  margin-right: 16px;
+  border: 1px solid #dcdfe6;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.type-tab {
+  padding: 8px 18px;
+  font-size: 14px;
+  color: #606266;
+  background: #fff;
+  cursor: pointer;
+  white-space: nowrap;
+
+  & + .type-tab {
+    border-left: 1px solid #dcdfe6;
+  }
+
+  &.active {
+    color: #fff;
+    background: @primary;
+  }
+}
+
+.search-label {
+  margin-right: 10px;
+  margin-left: 8px;
+  font-size: 14px;
+  color: #303133;
+  white-space: nowrap;
+
+  &:first-child {
+    margin-left: 0;
+  }
+}
+
+.w-110 {
+  width: 110px;
+}
+
+.w-120 {
+  width: 120px;
+}
+
+.w-130 {
+  width: 130px;
+}
+
+.w-160 {
+  width: 160px;
+}
+
+.w-180 {
+  width: 180px;
+}
+
+/* 列表卡片 */
+.table-card {
+  padding: 20px 24px;
+  background: #fff;
+  border-radius: 8px;
+}
+
+.toolbar {
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+
+  /* 批量催缴浅色按钮 */
+  .btn-batch {
+    opacity: 0.75;
+
+    &.is-disabled {
+      opacity: 0.45;
+    }
+  }
+
+  /* 导入账单（绿色）、导出账单（棕色） */
+  .btn-import {
+    background: #52a344;
+    border-color: #52a344;
+  }
+
+  .btn-export {
+    color: #fff;
+    background: #a0703c;
+    border-color: #a0703c;
+  }
+}
+
+/* 金额（红色） */
+.amount {
+  font-weight: 600;
+  color: #f56c6c;
+}
+
+/* 应付金额（蓝色） */
+.amount-blue {
+  font-weight: 600;
+  color: @primary;
+}
+
+.op-pay {
+  color: @primary;
+}
+
+.op-remind {
+  color: #e6a23c;
+}
+
+/* 详情弹窗描述表 */
+.detail-descriptions {
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.detail-row {
+  display: flex;
+  border-bottom: 1px solid #ebeef5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.detail-label {
+  flex: 0 0 110px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #606266;
+  background: #f5f7fa;
+  border-right: 1px solid #ebeef5;
+}
+
+.detail-value {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #303133;
+  border-right: 1px solid #ebeef5;
+  word-break: break-all;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 16px;
+}

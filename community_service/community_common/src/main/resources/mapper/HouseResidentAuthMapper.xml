@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.common.mapper.HouseResidentAuthMapper">
+
+    <!-- 批量添加房屋居民认证信息 -->
+    <insert id="batchInsert">
+        INSERT INTO house_resident_auth (house_id, resident_id, type, audit_status, is_main, create_time)
+        VALUES
+        <foreach collection="houseIds" item="houseId" separator=",">
+            (#{houseId}, #{residentId}, #{type}, 2, 1, NOW())
+        </foreach>
+    </insert>
+
+    <!-- 根据居民ID查询对应的认证信息集合 -->
+    <select id="selectByResidentId" resultType="com.community.common.pojo.HouseResidentAuth">
+        SELECT * FROM house_resident_auth WHERE resident_id = #{residentId}
+    </select>
+
+    <!-- 根据居民ID删除对应信息 -->
+    <delete id="deleteByResidentId">
+        DELETE FROM house_resident_auth WHERE resident_id = #{residentId}
+    </delete>
+
+    <!-- 分页+条件查询认证列表（5表联查：认证表-房屋表-楼栋表-居民表-管理员表） -->
+    <select id="selectAuthPage" resultType="com.community.common.vo.HouseResidentAuthVO">
+        SELECT
+            hra.auth_id,
+            hra.resident_id,
+            b.building_name,
+            h.unit_no,
+            h.house_number,
+            r.name,
+            r.id_card,
+            r.phone,
+            hra.type,
+            hra.auth_material_url,
+            hra.audit_status,
+            hra.audit_remark,
+            a.username AS admin_username,
+            hra.create_time
+        FROM house_resident_auth hra
+        LEFT JOIN house h ON hra.house_id = h.house_id
+        LEFT JOIN building b ON h.building_id = b.building_id
+        LEFT JOIN resident r ON hra.resident_id = r.resident_id
+        LEFT JOIN admin a ON hra.admin_id = a.admin_id
+        <where>
+            <if test="query.auditStatus != null">
+                AND hra.audit_status = #{query.auditStatus}
+            </if>
+            <if test="query.buildingId != null">
+                AND h.building_id = #{query.buildingId}
+            </if>
+            <if test="query.unitNo != null and query.unitNo != ''">
+                AND h.unit_no = #{query.unitNo}
+            </if>
+            <if test="query.houseNumber != null and query.houseNumber != ''">
+                AND h.house_number = #{query.houseNumber}
+            </if>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (r.name LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR r.id_card LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR r.phone LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR hra.audit_remark LIKE CONCAT('%', #{query.keyword}, '%'))
+            </if>
+            <if test="query.startDate != null and query.startDate != ''">
+                AND hra.create_time &gt;= #{query.startDate}
+            </if>
+            <if test="query.endDate != null and query.endDate != ''">
+                AND hra.create_time &lt;= #{query.endDate}
+            </if>
+        </where>
+        ORDER BY hra.create_time DESC
+    </select>
+
+    <!-- 根据认证ID数组批量修改审核状态 -->
+    <update id="batchUpdateAuditStatus">
+        UPDATE house_resident_auth
+        SET audit_status = #{auditStatus},
+            audit_remark = #{auditRemark},
+            admin_id = #{adminId}
+        WHERE auth_id IN
+        <foreach collection="authIds" item="authId" open="(" separator="," close=")">
+            #{authId}
+        </foreach>
+    </update>
+
+    <!-- 根据房屋ID数组统计每个房屋在认证表中出现的次数（无认证记录的房屋统计为0） -->
+    <select id="countByHouseIds" resultType="com.community.common.vo.HouseAuthCountVO">
+        SELECT
+            h.house_id,
+            b.building_name,
+            h.unit_no,
+            h.house_number,
+            COUNT(hra.auth_id) AS auth_count
+        FROM house h
+        LEFT JOIN building b ON h.building_id = b.building_id
+        LEFT JOIN house_resident_auth hra ON h.house_id = hra.house_id
+        WHERE h.house_id IN
+        <foreach collection="houseIds" item="houseId" open="(" separator="," close=")">
+            #{houseId}
+        </foreach>
+        GROUP BY h.house_id, b.building_name, h.unit_no, h.house_number
+    </select>
+
+    <!-- 根据居民ID数组统计每个居民在认证表中出现的次数（无认证记录的居民统计为0） -->
+    <select id="countByResidentIds" resultType="com.community.common.vo.ResidentAuthCountVO">
+        SELECT
+            r.resident_id,
+            r.name,
+            r.phone,
+            GROUP_CONCAT(DISTINCT CONCAT(b.building_name, '-', h.unit_no, '单元-', h.house_number) SEPARATOR ', ') AS house_name,
+            COUNT(hra.auth_id) AS auth_count
+        FROM resident r
+        LEFT JOIN house_resident_auth hra ON r.resident_id = hra.resident_id
+        LEFT JOIN house h ON hra.house_id = h.house_id
+        LEFT JOIN building b ON h.building_id = b.building_id
+        WHERE r.resident_id IN
+        <foreach collection="residentIds" item="residentId" open="(" separator="," close=")">
+            #{residentId}
+        </foreach>
+        GROUP BY r.resident_id, r.name, r.phone
+    </select>
+
+    <!-- 根据房屋ID统计该房屋在认证表中出现的次数 -->
+    <select id="countByHouseId" resultType="int">
+        SELECT COUNT(*) FROM house_resident_auth WHERE house_id = #{houseId}
+    </select>
+
+    <!-- 根据居民ID统计该居民在认证表中出现的次数 -->
+    <select id="countByResidentId" resultType="int">
+        SELECT COUNT(*) FROM house_resident_auth WHERE resident_id = #{residentId}
+    </select>
+
+    <!-- 根据房屋ID数组批量查询认证表数据 -->
+    <select id="selectListByHouseIds" resultType="com.community.common.pojo.HouseResidentAuth">
+        SELECT * FROM house_resident_auth WHERE house_id IN
+        <foreach collection="houseIds" item="houseId" open="(" separator="," close=")">
+            #{houseId}
+        </foreach>
+    </select>
+
+    <!-- 根据居民ID数组批量查询认证表数据 -->
+    <select id="selectListByResidentIds" resultType="com.community.common.pojo.HouseResidentAuth">
+        SELECT * FROM house_resident_auth WHERE resident_id IN
+        <foreach collection="residentIds" item="residentId" open="(" separator="," close=")">
+            #{residentId}
+        </foreach>
+    </select>
+
+    <!-- 根据房屋ID删除认证表中该房屋的认证数据 -->
+    <delete id="deleteByHouseId">
+        DELETE FROM house_resident_auth WHERE house_id = #{houseId}
+    </delete>
+
+    <!-- 根据房屋ID数组批量删除认证表数据 -->
+    <delete id="deleteByHouseIds">
+        DELETE FROM house_resident_auth WHERE house_id IN
+        <foreach collection="houseIds" item="houseId" open="(" separator="," close=")">
+            #{houseId}
+        </foreach>
+    </delete>
+
+    <!-- 根据居民ID数组批量删除认证表数据 -->
+    <delete id="deleteByResidentIds">
+        DELETE FROM house_resident_auth WHERE resident_id IN
+        <foreach collection="residentIds" item="residentId" open="(" separator="," close=")">
+            #{residentId}
+        </foreach>
+    </delete>
+
+</mapper>

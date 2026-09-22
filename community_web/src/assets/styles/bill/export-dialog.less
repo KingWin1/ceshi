@@ -1,0 +1,27 @@
+/* 导出账单弹窗样式 */
+.export-form {
+  ::v-deep .el-form-item {
+    margin-bottom: 18px;
+  }
+
+  ::v-deep .el-form-item__label {
+    color: #606266;
+  }
+}
+
+/* 导出字段：每行 4 列 */
+.field-grid {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.field-item {
+  width: 25%;
+  margin-right: 0;
+  padding-left: 4px;
+
+  ::v-deep .el-checkbox__label {
+    font-size: 14px;
+    color: #303133;
+  }
+}

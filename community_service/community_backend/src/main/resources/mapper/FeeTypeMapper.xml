@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.FeeTypeMapper">
+
+    <!-- 根据费用类型ID统计该费用类型在账单表中使用的次数 -->
+    <select id="countByFeeTypeId" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM bill WHERE fee_type_id = #{feeTypeId}
+    </select>
+
+</mapper>

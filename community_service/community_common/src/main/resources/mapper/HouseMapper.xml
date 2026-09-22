@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.common.mapper.HouseMapper">
+
+    <!-- 分页+条件查询房屋列表（房屋表-居民表-楼栋表-户型表 四表联查） -->
+    <select id="selectHousePage" resultType="com.community.common.vo.HouseVO">
+        SELECT
+            h.house_id,
+            b.building_name,
+            h.unit_no,
+            h.house_number,
+            h.area,
+            CONCAT(ht.rooms, '室', ht.hall, '厅', ht.toilet, '卫') AS house_type_desc,
+            h.orientation,
+            r.name AS owner_name,
+            r.phone AS owner_phone,
+            h.status
+        FROM house h
+        LEFT JOIN building b ON h.building_id = b.building_id
+        LEFT JOIN house_type ht ON h.house_type_id = ht.house_type_id
+        LEFT JOIN house_resident_auth hra ON h.house_id = hra.house_id AND hra.is_main = 1 AND hra.audit_status = 2
+        LEFT JOIN resident r ON hra.resident_id = r.resident_id AND r.type = 1
+        <where>
+            <if test="query.buildingId != null">
+                AND h.building_id = #{query.buildingId}
+            </if>
+            <if test="query.unitNo != null and query.unitNo != ''">
+                AND h.unit_no = #{query.unitNo}
+            </if>
+            <if test="query.status != null">
+                AND h.status = #{query.status}
+            </if>
+            <if test="query.minArea != null">
+                AND h.area &gt;= #{query.minArea}
+            </if>
+            <if test="query.maxArea != null">
+                AND h.area &lt;= #{query.maxArea}
+            </if>
+            <if test="query.rooms != null">
+                AND ht.rooms = #{query.rooms}
+            </if>
+            <if test="query.hall != null">
+                AND ht.hall = #{query.hall}
+            </if>
+            <if test="query.toilet != null">
+                AND ht.toilet = #{query.toilet}
+            </if>
+            <if test="query.orientation != null">
+                AND h.orientation = #{query.orientation}
+            </if>
+            <if test="query.ownerName != null and query.ownerName != ''">
+                AND r.name LIKE CONCAT('%', #{query.ownerName}, '%')
+            </if>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (r.name LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR r.phone LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR h.house_number LIKE CONCAT('%', #{query.keyword}, '%'))
+            </if>
+        </where>
+        ORDER BY h.house_id ASC
+    </select>
+
+    <!-- 根据楼栋ID、单元号、房间号查询房屋ID数组 -->
+    <select id="selectHouseIdsByBuildingIdAndUnitNoAndHouseNumber" resultType="java.lang.Integer">
+        SELECT house_id FROM house
+        WHERE building_id = #{buildingId}
+        AND unit_no = #{unitNo}
+        AND house_number = #{houseNumber}
+    </select>
+
+    <!-- 根据房屋ID数组查询房屋信息集合 -->
+    <select id="selectHouseListByIds" resultType="com.community.common.pojo.House">
+        SELECT * FROM house WHERE house_id IN
+        <foreach collection="houseIds" item="houseId" open="(" separator="," close=")">
+            #{houseId}
+        </foreach>
+    </select>
+
+    <!-- 根据房屋ID查询房屋详情（联查户型室/厅/卫，用于编辑回显） -->
+    <select id="selectHouseDetailById" resultType="com.community.common.vo.HouseDetailVO">
+        SELECT
+            h.house_id,
+            h.building_id,
+            h.unit_no,
+            h.house_number,
+            h.area,
+            h.house_type_id,
+            h.room_type,
+            h.orientation,
+            h.status,
+            ht.rooms,
+            ht.hall,
+            ht.toilet
+        FROM house h
+        LEFT JOIN house_type ht ON h.house_type_id = ht.house_type_id
+        WHERE h.house_id = #{houseId}
+    </select>
+
+    <!-- 根据楼栋ID查询该楼栋下的房屋列表 -->
+    <select id="selectByBuildingId" resultType="com.community.common.pojo.House">
+        SELECT * FROM house WHERE building_id = #{buildingId}
+        ORDER BY unit_no ASC, house_number ASC
+    </select>
+
+    <!-- 根据楼栋ID和单元号查询对应的房屋信息集合 -->
+    <select id="selectByBuildingIdAndUnitNo" resultType="com.community.common.pojo.House">
+        SELECT * FROM house WHERE building_id = #{buildingId} AND unit_no = #{unitNo}
+        ORDER BY house_number ASC
+    </select>
+
+    <!-- 查询全部房屋信息 -->
+    <select id="selectAll" resultType="com.community.common.pojo.House">
+        SELECT * FROM house ORDER BY building_id ASC, unit_no ASC, house_number ASC
+    </select>
+
+    <!-- 根据楼栋ID统计该楼栋下的房屋数量（判断楼栋是否被房屋占用） -->
+    <select id="countByBuildingId" resultType="int">
+        SELECT COUNT(*) FROM house WHERE building_id = #{buildingId}
+    </select>
+
+    <!-- 根据楼栋ID数组查询被房屋占用的楼栋ID集合 -->
+    <select id="selectOccupiedBuildingIds" resultType="java.lang.Integer">
+        SELECT DISTINCT building_id FROM house WHERE building_id IN
+        <foreach collection="buildingIds" item="buildingId" open="(" separator="," close=")">
+            #{buildingId}
+        </foreach>
+    </select>
+
+</mapper>

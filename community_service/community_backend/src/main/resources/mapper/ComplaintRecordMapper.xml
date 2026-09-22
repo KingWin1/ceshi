@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.ComplaintRecordMapper">
+
+    <!-- 分页+条件查询投诉记录 -->
+    <select id="selectComplaintRecordPage" resultType="com.community.common.pojo.ComplaintRecord">
+        SELECT
+            complaint_id,
+            complaint_no,
+            title,
+            contact_person,
+            content,
+            contact_phone,
+            attachment_url,
+            status,
+            submit_time
+        FROM complaint_record
+        <where>
+            <if test="query.title != null and query.title != ''">
+                AND title LIKE CONCAT('%', #{query.title}, '%')
+            </if>
+            <if test="query.contactPerson != null and query.contactPerson != ''">
+                AND contact_person LIKE CONCAT('%', #{query.contactPerson}, '%')
+            </if>
+            <!-- 关键词：标题/联系人/联系电话 模糊匹配 -->
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (
+                    title LIKE CONCAT('%', #{query.keyword}, '%')
+                    OR contact_person LIKE CONCAT('%', #{query.keyword}, '%')
+                    OR contact_phone LIKE CONCAT('%', #{query.keyword}, '%')
+                )
+            </if>
+            <if test="query.status != null">
+                AND status = #{query.status}
+            </if>
+        </where>
+        ORDER BY submit_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.StoreMapper">
+
+    <!-- 根据门店ID查询门店详情（关联门店分类名称） -->
+    <select id="selectStoreDetail" resultType="com.community.backend.vo.StoreVO">
+        SELECT
+            s.store_id,
+            s.store_name,
+            s.category_id,
+            s.contact_phone,
+            s.address,
+            s.open_time,
+            s.close_time,
+            s.view_count,
+            s.status,
+            s.is_recommend,
+            s.logo_url,
+            s.image_url,
+            s.introduction,
+            s.sort,
+            s.longitude,
+            s.latitude,
+            s.create_time,
+            sc.category_name
+        FROM store s
+        LEFT JOIN store_category sc ON s.category_id = sc.category_id
+        WHERE s.store_id = #{storeId}
+    </select>
+
+</mapper>

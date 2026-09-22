@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.RepairRecordMapper">
+
+    <!-- 3表联查基础SQL片段 -->
+    <sql id="repairRecordJoinSql">
+        SELECT
+            rr.repair_id,
+            rr.repair_no,
+            rr.reporter_name,
+            rr.contact_phone,
+            rr.repair_address,
+            rt.type_name AS repair_type_name,
+            rr.description,
+            e.employee_name,
+            rr.evaluation,
+            rr.expected_time,
+            rr.status,
+            rr.create_time,
+            rr.dispatch_time,
+            rr.complete_time,
+            rr.complete_remark,
+            rr.complete_image_url,
+            rr.rating_score,
+            rr.rating_time,
+            rr.rating_content
+        FROM repair_record rr
+        LEFT JOIN repair_type rt ON rr.repair_type_id = rt.type_id
+        LEFT JOIN employee e ON rr.employee_id = e.employee_id
+    </sql>
+
+    <!-- 动态条件 -->
+    <sql id="repairRecordWhereSql">
+        <where>
+            <if test="query.repairTypeId != null">
+                AND rr.repair_type_id = #{query.repairTypeId}
+            </if>
+            <if test="query.status != null">
+                AND rr.status = #{query.status}
+            </if>
+            <if test="query.keyword != null and query.keyword != ''">
+                AND (rr.repair_no LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR rr.reporter_name LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR rr.contact_phone LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR rr.repair_address LIKE CONCAT('%', #{query.keyword}, '%')
+                     OR rr.remark LIKE CONCAT('%', #{query.keyword}, '%'))
+            </if>
+        </where>
+    </sql>
+
+    <!-- 分页+条件查询报修记录 -->
+    <select id="selectRepairRecordPage" resultType="com.community.backend.vo.RepairRecordVO">
+        <include refid="repairRecordJoinSql"/>
+        <include refid="repairRecordWhereSql"/>
+        ORDER BY rr.create_time DESC
+    </select>
+
+    <!-- 根据报修ID查询报修记录详情 -->
+    <select id="selectRepairRecordDetail" resultType="com.community.backend.vo.RepairRecordVO">
+        <include refid="repairRecordJoinSql"/>
+        WHERE rr.repair_id = #{repairId}
+    </select>
+
+</mapper>

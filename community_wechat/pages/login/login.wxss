@@ -1,0 +1,188 @@
+/* 登录入口页样式 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+}
+
+/* 顶部渐变区 */
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 160rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+/* 微信一键登录卡片 */
+.wx-card {
+  position: relative;
+  margin: -100rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 48rpx 40rpx 44rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.12);
+}
+
+/* 头像按钮（重置button默认样式） */
+.wx-card__avatar-btn {
+  width: 160rpx;
+  height: 160rpx;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  line-height: normal;
+  border-radius: 50%;
+}
+
+.wx-card__avatar-btn::after {
+  border: none;
+}
+
+.wx-card__avatar {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 50%;
+  border: 4rpx solid #eaf2fb;
+  box-shadow: 0 6rpx 20rpx rgba(74, 144, 217, 0.18);
+}
+
+.wx-card__nick {
+  margin-top: 24rpx;
+  width: 100%;
+  text-align: center;
+  font-size: 32rpx;
+  color: #1a1a1a;
+  font-weight: 500;
+  height: 48rpx;
+  line-height: 48rpx;
+}
+
+.wx-card__nick-ph {
+  color: #bfbfbf;
+  font-weight: 400;
+}
+
+.wx-card__tip {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  color: #9aa4b2;
+}
+
+.wx-card__btn {
+  margin-top: 40rpx;
+  width: 100%;
+  height: 92rpx;
+  line-height: 92rpx;
+  text-align: center;
+  border-radius: 46rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #ffffff;
+  background: linear-gradient(90deg, #07c160, #26d07c);
+  box-shadow: 0 8rpx 20rpx rgba(7, 193, 96, 0.28);
+}
+
+.wx-card__btn--disabled {
+  opacity: 0.6;
+}
+
+/* 分隔线 */
+.divider {
+  display: flex;
+  align-items: center;
+  margin: 44rpx 60rpx 0;
+}
+
+.divider__line {
+  flex: 1;
+  height: 1rpx;
+  background: #dde3ec;
+}
+
+.divider__text {
+  padding: 0 24rpx;
+  font-size: 26rpx;
+  color: #9aa4b2;
+}
+
+/* 其他登录方式入口列表 */
+.entry-card {
+  margin: 28rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 0 32rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  height: 116rpx;
+}
+
+.entry:active {
+  background: #f7f9fc;
+}
+
+.entry__icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.entry__icon--sms {
+  background: #eef4fc;
+}
+
+.entry__icon--pwd {
+  background: #fdeeec;
+}
+
+.entry__icon-img {
+  width: 36rpx;
+  height: 36rpx;
+}
+
+.entry__text {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333333;
+}
+
+.entry__arrow {
+  font-size: 40rpx;
+  color: #c0c6d0;
+  line-height: 1;
+}
+
+.entry__line {
+  height: 1rpx;
+  background: #f0f2f6;
+}

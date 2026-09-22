@@ -1,0 +1,48 @@
+/* 账单缴费弹窗样式 */
+.pay-descriptions {
+  margin-bottom: 20px;
+  border: 1px solid #ebeef5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.pay-row {
+  display: flex;
+  border-bottom: 1px solid #ebeef5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.pay-label {
+  flex: 0 0 110px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #606266;
+  background: #f5f7fa;
+  border-right: 1px solid #ebeef5;
+}
+
+.pay-value {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #303133;
+  border-right: 1px solid #ebeef5;
+  word-break: break-all;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+/* 应付金额（红色） */
+.amount {
+  font-weight: 600;
+  color: #f56c6c;
+}
+
+.w-full {
+  width: 100%;
+}

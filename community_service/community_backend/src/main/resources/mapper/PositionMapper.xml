@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.community.backend.mapper.PositionMapper">
+
+    <!-- 根据部门ID统计该部门在岗位表中出现的次数 -->
+    <select id="countByDeptId" resultType="int">
+        SELECT COUNT(*) FROM position WHERE dept_id = #{deptId}
+    </select>
+
+    <!-- 根据部门ID数组统计每个部门在岗位表中出现的次数（无岗位记录的部门统计为0） -->
+    <select id="countByDeptIds" resultType="com.community.backend.vo.DeptPositionCountVO">
+        SELECT
+            d.dept_id,
+            d.dept_name,
+            COUNT(p.position_id) AS position_count
+        FROM department d
+        LEFT JOIN position p ON d.dept_id = p.dept_id
+        WHERE d.dept_id IN
+        <foreach collection="deptIds" item="deptId" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+        GROUP BY d.dept_id, d.dept_name
+    </select>
+
+    <!-- 根据部门ID删除岗位数据 -->
+    <delete id="deleteByDeptId">
+        DELETE FROM position WHERE dept_id = #{deptId}
+    </delete>
+
+    <!-- 根据部门ID数组批量删除岗位数据 -->
+    <delete id="deleteByDeptIds">
+        DELETE FROM position WHERE dept_id IN
+        <foreach collection="deptIds" item="deptId" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+    </delete>
+
+    <!-- 根据部门ID数组批量查询岗位数据 -->
+    <select id="selectListByDeptIds" resultType="com.community.common.pojo.Position">
+        SELECT * FROM position WHERE dept_id IN
+        <foreach collection="deptIds" item="deptId" open="(" separator="," close=")">
+            #{deptId}
+        </foreach>
+    </select>
+
+</mapper>

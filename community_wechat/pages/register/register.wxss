@@ -1,0 +1,125 @@
+/* 注册页样式 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 160rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.card {
+  position: relative;
+  margin: -100rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 10rpx 40rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.12);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  height: 130rpx;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.field:last-child {
+  border-bottom: none;
+}
+
+.field__input {
+  flex: 1;
+  font-size: 30rpx;
+  color: #333333;
+}
+
+.field__ph {
+  color: #bfbfbf;
+  font-size: 30rpx;
+}
+
+.field__action {
+  font-size: 30rpx;
+  color: #4a90d9;
+  padding-left: 24rpx;
+}
+
+.field__action--disabled {
+  color: #b8c7d9;
+}
+
+.field__eye {
+  width: 44rpx;
+  height: 44rpx;
+  padding-left: 20rpx;
+}
+
+/* 协议勾选 */
+.agreement {
+  display: flex;
+  align-items: flex-start;
+  padding: 50rpx 40rpx 0;
+}
+
+.agreement__check {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 2rpx solid #c8c8c8;
+  margin-right: 16rpx;
+  margin-top: 4rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.agreement__check--on {
+  background: #4a90d9;
+  border-color: #4a90d9;
+}
+
+.agreement__tick {
+  color: #ffffff;
+  font-size: 26rpx;
+  line-height: 1;
+}
+
+.agreement__text {
+  flex: 1;
+  font-size: 26rpx;
+  color: #999999;
+  line-height: 40rpx;
+}
+
+.agreement__link {
+  color: #4a90d9;
+}
+
+.submit-btn {
+  margin: 80rpx auto 0;
+}

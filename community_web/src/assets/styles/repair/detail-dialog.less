@@ -1,0 +1,76 @@
+/* 报修单详情弹窗样式 */
+.detail-body {
+  max-height: 66vh;
+  overflow-y: auto;
+}
+
+/* 分组卡片：报修信息 / 完工信息 / 评价信息 */
+.section-card {
+  margin-bottom: 16px;
+  border: 1px solid #ebeef5;
+  border-radius: 6px;
+  overflow: hidden;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.section-title {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #303133;
+  background: #fff;
+
+  .el-tag {
+    margin-left: 10px;
+  }
+}
+
+/* 描述表 */
+.detail-descriptions {
+  border-top: 1px solid #ebeef5;
+}
+
+.detail-row {
+  display: flex;
+  border-bottom: 1px solid #ebeef5;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.detail-label {
+  flex: 0 0 120px;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #606266;
+  background: #f5f7fa;
+  border-right: 1px solid #ebeef5;
+}
+
+.detail-value {
+  flex: 1;
+  padding: 12px 16px;
+  font-size: 14px;
+  color: #303133;
+  border-right: 1px solid #ebeef5;
+  word-break: break-all;
+
+  &:last-child {
+    border-right: none;
+  }
+}
+
+/* 完工图片 */
+.detail-image {
+  width: 80px;
+  height: 80px;
+  margin-right: 8px;
+  border-radius: 4px;
+  cursor: pointer;
+}

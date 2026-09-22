@@ -1,0 +1,30 @@
+/* 房屋新增/编辑弹窗样式 */
+.w-full {
+  width: 100%;
+}
+
+.w-110 {
+  width: 110px;
+}
+
+.w-220 {
+  width: 220px;
+}
+
+/* 户型：室/厅/卫 保持一排显示，不换行 */
+.layout-group {
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.layout-label {
+  margin: 0 8px 0 0;
+  font-size: 14px;
+  color: #606266;
+  white-space: nowrap;
+
+  &:not(:first-child) {
+    margin-left: 16px;
+  }
+}
