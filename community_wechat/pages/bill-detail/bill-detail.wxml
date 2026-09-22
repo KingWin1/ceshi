@@ -1,0 +1,56 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">账单详情</text>
+    </view>
+  </view>
+
+  <view class="content" wx:if="{{detail}}">
+    <!-- 金额头部 -->
+    <view class="amount-card">
+      <text class="amount-card__label">{{detail.month}} {{detail.itemName}}</text>
+      <text class="amount-card__value">¥{{detail.amount}}</text>
+      <text class="amount-card__status">{{detail.statusName}}</text>
+    </view>
+
+    <!-- 费用明细 -->
+    <view class="card">
+      <view class="card__title">费用明细</view>
+      <view class="fee-row" wx:for="{{detail.feeItems}}" wx:key="name">
+        <text class="fee-row__name">{{item.name}}</text>
+        <text class="fee-row__value">¥{{item.amount}}</text>
+      </view>
+      <view class="fee-row fee-row--total">
+        <text class="fee-row__name">合计</text>
+        <text class="fee-row__value">¥{{detail.amount}}</text>
+      </view>
+    </view>
+
+    <!-- 账单信息 -->
+    <view class="card">
+      <view class="card__title">账单信息</view>
+      <view class="info-row">
+        <text class="info-row__label">账单编号</text>
+        <text class="info-row__value">{{detail.id}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-row__label">缴费截止</text>
+        <text class="info-row__value">{{detail.deadline}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-row__label">缴费时间</text>
+        <text class="info-row__value">{{detail.payTime || '-'}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部缴费按钮 -->
+  <view class="footer" wx:if="{{detail && detail.status === 0}}">
+    <button class="btn-primary pay-btn {{paying ? 'btn-primary--disabled' : ''}}" bindtap="onPayTap">
+      {{paying ? '支付中...' : '立即缴费 ¥' + detail.amount}}
+    </button>
+  </view>
+
+  <view class="loading-tip" wx:if="{{!detail}}">加载中...</view>
+</view>
