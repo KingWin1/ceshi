@@ -1,0 +1,63 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">提交报修</text>
+    </view>
+  </view>
+
+  <view class="form">
+    <!-- 报修类型 -->
+    <view class="form__label">报修类型</view>
+    <view class="types">
+      <view
+        wx:for="{{types}}"
+        wx:key="*this"
+        class="types__item {{repairType === item ? 'types__item--active' : ''}}"
+        data-type="{{item}}"
+        bindtap="onTypeTap"
+      >{{item}}</view>
+    </view>
+
+    <!-- 报修描述 -->
+    <view class="form__label">问题描述</view>
+    <view class="textarea-wrap">
+      <textarea
+        class="textarea"
+        placeholder="请详细描述故障情况，便于维修人员快速处理（10-200字）"
+        placeholder-class="textarea__placeholder"
+        maxlength="200"
+        value="{{description}}"
+        bindinput="onDescInput"
+      />
+      <text class="textarea__count">{{description.length}}/200</text>
+    </view>
+
+    <!-- 图片上传 -->
+    <view class="form__label">现场照片（选填，最多3张）</view>
+    <view class="images">
+      <view class="images__item" wx:for="{{images}}" wx:key="*this">
+        <image class="images__pic" src="{{item}}" mode="aspectFill" data-index="{{index}}" bindtap="onPreviewImage" />
+        <view class="images__del" data-index="{{index}}" catchtap="onDeleteImage">×</view>
+      </view>
+      <view class="images__add" wx:if="{{images.length < 3}}" bindtap="onChooseImage">＋</view>
+    </view>
+
+    <!-- 联系人 -->
+    <view class="form__label">联系方式</view>
+    <input
+      class="input"
+      type="number"
+      maxlength="11"
+      placeholder="请输入联系电话"
+      placeholder-class="input__placeholder"
+      value="{{contactPhone}}"
+      bindinput="onPhoneInput"
+    />
+
+    <!-- 提交按钮 -->
+    <button class="btn-primary submit {{submitting ? 'btn-primary--disabled' : ''}}" bindtap="onSubmit">
+      {{submitting ? '提交中...' : '提交报修'}}
+    </button>
+  </view>
+</view>
