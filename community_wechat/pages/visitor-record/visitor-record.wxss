@@ -1,0 +1,107 @@
+/* 访客记录页 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+  padding-bottom: 60rpx;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 60rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.list {
+  margin: -40rpx 30rpx 0;
+}
+
+.visit {
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx 32rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.visit__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 20rpx;
+  border-bottom: 2rpx solid #f2f3f7;
+}
+
+.visit__name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1a1a1a;
+}
+
+.visit__status {
+  font-size: 24rpx;
+  padding: 6rpx 20rpx;
+  border-radius: 24rpx;
+}
+
+.visit__status--pending {
+  color: #e6a23c;
+  background: #fdf6ec;
+}
+
+.visit__status--arrived {
+  color: #4a90d9;
+  background: #ecf5ff;
+}
+
+.visit__status--left {
+  color: #67c23a;
+  background: #f0f9eb;
+}
+
+.visit__status--expired {
+  color: #999999;
+  background: #f4f4f5;
+}
+
+.visit__row {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18rpx;
+  font-size: 26rpx;
+}
+
+.visit__label {
+  color: #999999;
+}
+
+.visit__value {
+  color: #333333;
+}
+
+.load-more {
+  padding: 30rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999999;
+}
