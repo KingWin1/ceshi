@@ -1,0 +1,43 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">在线报修</text>
+    </view>
+    <!-- 状态筛选标签 -->
+    <view class="tabs">
+      <view
+        wx:for="{{tabs}}"
+        wx:key="value"
+        class="tabs__item {{activeTab === item.value ? 'tabs__item--active' : ''}}"
+        data-value="{{item.value}}"
+        bindtap="onTabTap"
+      >{{item.label}}</view>
+    </view>
+  </view>
+
+  <view class="list">
+    <view class="repair-card" wx:for="{{list}}" wx:key="id" data-id="{{item.id}}" bindtap="onGoDetail">
+      <view class="repair-card__head">
+        <text class="repair-card__type">{{item.typeName}}</text>
+        <text class="repair-card__status repair-card__status--{{item.statusKey}}">{{item.statusName}}</text>
+      </view>
+      <view class="repair-card__desc">{{item.description}}</view>
+      <view class="repair-card__foot">
+        <text class="repair-card__time">{{item.createTime}}</text>
+        <text class="repair-card__addr">{{item.address}}</text>
+      </view>
+    </view>
+
+    <!-- 空状态 -->
+    <empty wx:if="{{!loading && list.length === 0}}" text="暂无报修记录" />
+
+    <!-- 加载更多 -->
+    <view class="load-more" wx:if="{{list.length > 0}}">
+      <text>{{loading ? '加载中...' : (noMore ? '没有更多了' : '上拉加载更多')}}</text>
+    </view>
+  </view>
+
+  <!-- 悬浮提交按钮 -->
+  <view class="fab" bindtap="onGoAdd">＋</view>
+</view>
