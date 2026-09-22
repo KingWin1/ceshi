@@ -1,0 +1,138 @@
+/* 消息中心页 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+  padding-bottom: 60rpx;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 60rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.navbar__extra {
+  position: absolute;
+  right: 30rpx;
+  top: 26rpx;
+  font-size: 26rpx;
+  color: #ffffff;
+}
+
+.list {
+  margin: -40rpx 30rpx 0;
+}
+
+/* 消息条目 */
+.msg {
+  display: flex;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.msg--unread {
+  border-left: 6rpx solid #4a90d9;
+}
+
+.msg__icon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 20rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.msg__icon--bill {
+  background: #fdf6ec;
+}
+
+.msg__icon--repair {
+  background: #ecf5ff;
+}
+
+.msg__icon--notice {
+  background: #fef0f0;
+}
+
+.msg__icon--system {
+  background: #f4f4f5;
+}
+
+.msg__icon-text {
+  font-size: 40rpx;
+}
+
+.msg__body {
+  flex: 1;
+  margin-left: 24rpx;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.msg__title-row {
+  display: flex;
+  align-items: center;
+}
+
+.msg__title {
+  font-size: 30rpx;
+  font-weight: 500;
+  color: #1a1a1a;
+}
+
+.msg__dot {
+  width: 14rpx;
+  height: 14rpx;
+  border-radius: 50%;
+  background: #e86a5a;
+  margin-left: 12rpx;
+}
+
+.msg__content {
+  margin-top: 10rpx;
+  font-size: 26rpx;
+  color: #666666;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.msg__time {
+  margin-top: 12rpx;
+  font-size: 22rpx;
+  color: #bbbbbb;
+}
+
+.load-more {
+  padding: 30rpx 0;
+  text-align: center;
+  font-size: 24rpx;
+  color: #999999;
+}

@@ -1,0 +1,31 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">消息中心</text>
+      <text class="navbar__extra" wx:if="{{unreadCount > 0}}" bindtap="onReadAll">全部已读</text>
+    </view>
+  </view>
+
+  <view class="list">
+    <view class="msg {{item.isRead ? '' : 'msg--unread'}}" wx:for="{{list}}" wx:key="id" data-index="{{index}}" data-link="{{item.link}}" bindtap="onTapMsg">
+      <view class="msg__icon msg__icon--{{item.typeKey}}">
+        <text class="msg__icon-text">{{item.typeIcon}}</text>
+      </view>
+      <view class="msg__body">
+        <view class="msg__title-row">
+          <text class="msg__title">{{item.title}}</text>
+          <text class="msg__dot" wx:if="{{!item.isRead}}"></text>
+        </view>
+        <text class="msg__content">{{item.content}}</text>
+        <text class="msg__time">{{item.createTime}}</text>
+      </view>
+    </view>
+
+    <empty wx:if="{{!loading && list.length === 0}}" text="暂无消息" />
+
+    <view class="load-more" wx:if="{{list.length > 0}}">
+      <text>{{loading ? '加载中...' : (noMore ? '没有更多了' : '上拉加载更多')}}</text>
+    </view>
+  </view>
+</view>
