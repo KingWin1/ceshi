@@ -14,6 +14,10 @@ module.exports = {
   register: (data) => post('/api/residentAuth/register', data),
   // 找回密码（重置密码）
   resetPassword: (data) => post('/api/residentAuth/resetPassword', data),
+  // 修改密码（登录态下校验旧密码）
+  changePassword: (data) => post('/api/residentAuth/changePassword', data),
+  // 更新个人资料（姓名/性别）
+  updateProfile: (data) => post('/api/residentAuth/updateProfile', data),
   // 微信静默登录
   wxLogin: (data) => post('/api/residentAuth/wxLogin', data),
   // 微信绑定居民账号
