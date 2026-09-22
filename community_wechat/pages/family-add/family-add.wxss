@@ -1,0 +1,106 @@
+/* 添加家庭成员页 */
+.page {
+  min-height: 100vh;
+  background: #f2f3f7;
+  padding-bottom: 60rpx;
+}
+
+.header {
+  background: linear-gradient(180deg, #4a90d9, #5fb0f0);
+  padding-bottom: 60rpx;
+}
+
+.navbar {
+  position: relative;
+  height: 88rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar__back {
+  position: absolute;
+  left: 30rpx;
+  top: 22rpx;
+  width: 44rpx;
+  height: 44rpx;
+}
+
+.navbar__title {
+  font-size: 36rpx;
+  color: #ffffff;
+  font-weight: 500;
+}
+
+.form {
+  margin: -40rpx 30rpx 0;
+  background: #ffffff;
+  border-radius: 20rpx;
+  padding: 20rpx 32rpx 48rpx;
+  box-shadow: 0 8rpx 30rpx rgba(74, 144, 217, 0.08);
+}
+
+.field {
+  display: flex;
+  align-items: center;
+  min-height: 104rpx;
+  border-bottom: 2rpx solid #f2f3f7;
+}
+
+.field__label {
+  width: 160rpx;
+  flex-shrink: 0;
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.field__input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.field__ph {
+  color: #bbbbbb;
+}
+
+.field__picker {
+  flex: 1;
+}
+
+.picker-value {
+  font-size: 28rpx;
+  color: #1a1a1a;
+}
+
+.picker-value--ph {
+  color: #bbbbbb;
+}
+
+/* 性别选择 */
+.genders {
+  display: flex;
+}
+
+.genders__item {
+  width: 120rpx;
+  height: 60rpx;
+  line-height: 56rpx;
+  text-align: center;
+  margin-right: 20rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  color: #666666;
+  background: #f2f3f7;
+  border: 2rpx solid #f2f3f7;
+}
+
+.genders__item--active {
+  color: #4a90d9;
+  background: #ecf5ff;
+  border-color: #4a90d9;
+}
+
+.submit {
+  width: 100%;
+  margin-top: 60rpx;
+}
