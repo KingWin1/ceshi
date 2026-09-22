@@ -1,0 +1,77 @@
+<view class="page">
+  <view class="header" style="padding-top: {{statusBarHeight}}px;">
+    <view class="navbar">
+      <image class="navbar__back" src="{{icons.BACK_WHITE}}" bindtap="onBackTap" />
+      <text class="navbar__title">报修详情</text>
+    </view>
+  </view>
+
+  <view class="content" wx:if="{{detail}}">
+    <!-- 基本信息 -->
+    <view class="card">
+      <view class="card__head">
+        <text class="card__type">{{detail.typeName}}</text>
+        <text class="card__status card__status--{{detail.statusKey}}">{{detail.statusName}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-row__label">报修单号</text>
+        <text class="info-row__value">{{detail.id}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-row__label">报修地址</text>
+        <text class="info-row__value">{{detail.address || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-row__label">联系电话</text>
+        <text class="info-row__value">{{detail.contactPhone || '-'}}</text>
+      </view>
+      <view class="info-row">
+        <text class="info-row__label">提交时间</text>
+        <text class="info-row__value">{{detail.createTime}}</text>
+      </view>
+      <view class="info-row info-row--col">
+        <text class="info-row__label">问题描述</text>
+        <text class="info-row__desc">{{detail.description}}</text>
+      </view>
+      <!-- 现场照片 -->
+      <view class="pics" wx:if="{{detail.images && detail.images.length > 0}}">
+        <image
+          class="pics__item"
+          wx:for="{{detail.images}}"
+          wx:key="*this"
+          src="{{item}}"
+          mode="aspectFill"
+          data-url="{{item}}"
+          bindtap="onPreviewImage"
+        />
+      </view>
+    </view>
+
+    <!-- 处理进度时间线 -->
+    <view class="card">
+      <view class="card__title">处理进度</view>
+      <view class="timeline">
+        <view class="timeline__item" wx:for="{{timeline}}" wx:key="index">
+          <view class="timeline__left">
+            <view class="timeline__dot {{index === 0 ? 'timeline__dot--active' : ''}}"></view>
+            <view class="timeline__line" wx:if="{{index < timeline.length - 1}}"></view>
+          </view>
+          <view class="timeline__body">
+            <text class="timeline__title {{index === 0 ? 'timeline__title--active' : ''}}">{{item.title}}</text>
+            <text class="timeline__time">{{item.time}}</text>
+            <text class="timeline__remark" wx:if="{{item.remark}}">{{item.remark}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 取消报修（仅待审核） -->
+    <button
+      class="cancel-btn"
+      wx:if="{{detail.status === 0}}"
+      bindtap="onCancelTap"
+    >取消报修</button>
+  </view>
+
+  <view class="loading-tip" wx:if="{{!detail && !loadFailed}}">加载中...</view>
+</view>
